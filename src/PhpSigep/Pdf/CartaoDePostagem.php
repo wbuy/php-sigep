@@ -274,6 +274,8 @@ class CartaoDePostagem
                     case ServicoDePostagem::SERVICE_SEDEX_CONTRATO_AGENCIA_TA:
                     case ServicoDePostagem::SERVICE_SEDEX_CONTRATO_AGENCIA_03050:
                     case ServicoDePostagem::SERVICE_SEDEX_CONTRATO_AGENCIA_03220:
+                    case ServicoDePostagem::SERVICE_SEDEX_CONTRATO_UO_LM:
+                    case ServicoDePostagem::SERVICE_SEDEX_CONTRATO_AGENCIA_PAGAMENTO_NA_ENTREGA_LM:
                         if ($this->layoutSedex === CartaoDePostagem::TYPE_CHANCELA_SEDEX) {
                             $chancela = new Sedex($lPosChancela, $tPosChancela, $nomeRemetente, Sedex::SERVICE_SEDEX, $accessData);
                         } else {
@@ -282,6 +284,8 @@ class CartaoDePostagem
                         break;
 
                     case ServicoDePostagem::SERVICE_SEDEX_12:
+                    case ServicoDePostagem::SERVICE_SEDEX_12_CONTRATO_AGENCIA_03140:
+                    case ServicoDePostagem::SERVICE_SEDEX_10_CONTRATO_AGENCIA_03158:
                         if ($this->layoutSedex === CartaoDePostagem::TYPE_CHANCELA_SEDEX) {
                             $chancela = new Sedex($lPosChancela, $tPosChancela, $nomeRemetente, Sedex::SERVICE_SEDEX_12, $accessData);
                         } else {
@@ -318,6 +322,7 @@ class CartaoDePostagem
                         }
                         break;
                     case ServicoDePostagem::SERVICE_SEDEX_REVERSO:
+                    case ServicoDePostagem::SERVICE_SEDEX_REVERSO_LM:
                     default:
                         $chancela = null;
                         break;
