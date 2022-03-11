@@ -37,6 +37,12 @@ class ServicoDePostagem extends AbstractModel
     const SERVICE_PAC_REVERSO_CONTRATO_AGENCIA = '04677';
     const SERVICE_CARTA_COM_A_FATURAR_SELO_E_SE = '12556';
     const SERVICE_CARTA_COMERCIAL_REGISTRADA_CTR_EP_MAQ_FRAN = '10707';
+    const SERVICE_MINI_ENVIOS_04227 = '04227';
+    const SERVICE_MINI_ENVIOS_04235 = '04235';
+    const SERVICE_MINI_ENVIOS_04391 = '04391';
+
+    // CODIGOS REFERENTES A CONTRATO OURO 4
+    const SERVICE_CARTA_REGISTRADA_80659 = '80659';
 
     // CODIGOS REFERENTES A LIMINAR ABCOMM
     const SERVICE_SEDEX_CONTRATO_GRANDES_FORMATOS_LM = '04146';
@@ -145,6 +151,10 @@ class ServicoDePostagem extends AbstractModel
 
             self::SERVICE_SEDEX_CONTRATO_AGENCIA_TA => array('SEDEX Contrato Agencia TA', 161274),
             self::SERVICE_PAC_CONTRATO_AGENCIA_TA   => array('PAC Contrato Agencia TA', 161277),
+            self::SERVICE_MINI_ENVIOS_04227 => array('MINI ENVIOS CTR AG', 159982),
+            self::SERVICE_MINI_ENVIOS_04235 => array('MINI ENVIOS CTR TA', 159983),
+            self::SERVICE_MINI_ENVIOS_04391 => array('MINI ENVIOS CTR UO', 160316),
+            self::SERVICE_CARTA_REGISTRADA_80659 => ['CARTA RG O4 CHANC ETIQUETA', 162166],
         );
 
     /**
@@ -183,7 +193,24 @@ class ServicoDePostagem extends AbstractModel
             )
         );
     }
+     /**
+     * @param array $arrayServicesCode
+     *        array com os codigos de serviço
+     *
+     * @return ServicoDePostagem[]
+     */
+    public static function getFromArray($arrayServicesCode)
+    {
+        $r = array();
+        foreach (self::$services as $serviceCode => $serviceDetails) {
+            if(array_key_exists($serviceCode,$arrayServicesCode)){
+                $r[] = new self($serviceCode);
+            }
+        }
 
+        return $r;
+    }
+    
     /**
      * @return ServicoDePostagem[]
      */
@@ -255,5 +282,4 @@ class ServicoDePostagem extends AbstractModel
     {
         $this->nome = $nome;
     }
-
 }

@@ -231,6 +231,7 @@ class CartaoDePostagem2018
                 case ServicoDePostagem::SERVICE_CARTA_COMERCIAL_A_FATURAR:
                 case ServicoDePostagem::SERVICE_CARTA_REGISTRADA:
                 case ServicoDePostagem::SERVICE_CARTA_REGISTRADA_AGENCIA_80250:    
+                case ServicoDePostagem::SERVICE_CARTA_REGISTRADA_80659:
                 case ServicoDePostagem::SERVICE_CARTA_COMERCIAL_REGISTRADA_CTR_EP_MAQ_FRAN:
                 case ServicoDePostagem::SERVICE_CARTA_COM_A_FATURAR_SELO_E_SE:
                     $simbolo_de_encaminhamento = realpath(dirname(__FILE__)) . '/simbolo-sem-especificacao.png';
@@ -239,6 +240,12 @@ class CartaoDePostagem2018
                 case ServicoDePostagem::SERVICE_SEDEX_REVERSO:
                     $simbolo_de_encaminhamento = realpath(dirname(__FILE__)) . '/simbolo-sedex-standard.png';
                     $_texto = 'SEDEX';
+                    break;
+                case ServicoDePostagem::SERVICE_MINI_ENVIOS_04227:
+                case ServicoDePostagem::SERVICE_MINI_ENVIOS_04235:
+                case ServicoDePostagem::SERVICE_MINI_ENVIOS_04391:
+                    $simbolo_de_encaminhamento = realpath(dirname(__FILE__)) . '/simbolo-sem-especificacao.png';
+                    $_texto = 'Mini Envios';
                     break;
                 default:
                     $simbolo_de_encaminhamento = null;
@@ -346,6 +353,10 @@ class CartaoDePostagem2018
                     $valorDeclarado = $servicoAdicional->getValorDeclarado();
                 } else if ($servicoAdicional->is(ServicoAdicional::SERVICE_VALOR_DECLARADO_PAC)) {
                     $sSer = $sSer . "64";
+                    $_siglaAdicinal[] = "VD";
+                    $valorDeclarado = $servicoAdicional->getValorDeclarado();
+                } else if ($servicoAdicional->is(ServicoAdicional::SERVICE_VALOR_DECLARADO_MINI_ENVIOS)) {
+                    $sSer = $sSer . "65";
                     $_siglaAdicinal[] = "VD";
                     $valorDeclarado = $servicoAdicional->getValorDeclarado();
                 } else if ($servicoAdicional->is(ServicoAdicional::SERVICE_REGISTRO)) {
@@ -720,7 +731,8 @@ class CartaoDePostagem2018
             $sum = $sum + intval($str[$i]);
         }
         $mul = $sum - $sum % 10 + 10;
-        return $mul - $sum;
+        $digCep = ($mul - $sum)%10 == 0 ? 0 : $mul - $sum;
+        return $digCep;
     }
 
     private function getM2Dstr ($cepD, $numD, $cepO, $numO, $etq, $srvA, $carP, $codS, $valD, $telD, $msg='')
